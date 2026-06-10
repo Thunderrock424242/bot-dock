@@ -1,10 +1,10 @@
 package com.thunder.botdock;
 
 import com.mojang.logging.LogUtils;
-import com.thunderrock.discordbot.config.BotConfig;
-import com.thunderrock.discordbot.modules.ChatBridgeModule;
-import com.thunderrock.discordbot.modules.PlayerEventsModule;
-import com.thunderrock.discordbot.modules.ServerStatsModule;
+import com.thunder.botdock.config.BotConfig;
+import com.thunder.botdock.modules.ChatBridgeModule;
+import com.thunder.botdock.modules.PlayerEventsModule;
+import com.thunder.botdock.modules.ServerStatsModule;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;

@@ -1,14 +1,14 @@
 package com.thunder.botdock;
 
-import com.thunderrock.discordbot.api.IBotModule;
-import com.thunderrock.discordbot.api.IDiscordCommand;
+import com.thunder.botdock.api.IBotModule;
+import com.thunder.botdock.api.IDiscordCommand;
+import com.thunder.botdock.config.BotConfig;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,7 +47,7 @@ public class DiscordBotEngine {
      */
     public static boolean start(MinecraftServer mcServer, String token) {
         server = mcServer;
-        bridgeChannelId = com.thunderrock.discordbot.config.BotConfig.CHANNEL_ID.get();
+        bridgeChannelId = BotConfig.CHANNEL_ID.get();
 
         try {
             jda = JDABuilder.createDefault(token)

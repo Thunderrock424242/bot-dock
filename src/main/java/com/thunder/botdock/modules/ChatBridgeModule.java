@@ -1,19 +1,15 @@
 package com.thunder.botdock.modules;
 
-import com.thunderrock.discordbot.DiscordBotEngine;
-import com.thunderrock.discordbot.DiscordBotMod;
-import com.thunderrock.discordbot.api.IBotModule;
-import com.thunderrock.discordbot.api.IDiscordCommand;
-import com.thunderrock.discordbot.config.BotConfig;
+import com.thunder.botdock.DiscordBotEngine;
+import com.thunder.botdock.DiscordBotMod;
+import com.thunder.botdock.api.IBotModule;
+import com.thunder.botdock.api.IDiscordCommand;
+import com.thunder.botdock.config.BotConfig;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
-import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.event.ServerChatEvent;
 
+import java.awt.*;
 import java.util.Map;
 
 /**
