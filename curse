@@ -1,0 +1,77 @@
+Here's the updated description:
+
+---
+
+**BotDock** is a server-side NeoForge mod that docks a Discord bot **directly to your Minecraft server** — no separate host, no extra VPS, no bot manager needed. Just drop in the jar, add your token, and your bot is live.
+
+---
+
+## 🤖 What It Does
+
+BotDock is a **bot hosting platform**, not just a chat bridge. The core engine connects your Discord bot to your server and keeps it running for as long as the server is online. All built-in features are **optional modules** you toggle in the config — or turn everything off and use it purely as a hosting layer for your own bot logic.
+
+---
+
+## ✅ Built-in Modules (all off by default)
+
+**💬 Chat Bridge**
+Relay messages between your Minecraft server chat and a Discord channel, in both directions.
+
+**📣 Player Events**
+Send notifications to Discord when players join, leave, or die. Each event type is individually togglable.
+
+**📊 Server Stats Commands**
+Adds Discord commands your community can use at any time:
+- `!list` — see who's online
+- `!tps` — check server performance
+- `!uptime` — see how long the server has been running
+- `!help` — list all available commands
+
+---
+
+## ⚙️ Fully Configurable
+
+Every message format is customizable in `config/botdock-server.toml` with placeholder support:
+
+```
+joinFormat        = "➕ **{player}** joined the server."
+discordChatFormat = "**[MC] {player}:** {message}"
+mcChatFormat      = "§9[Discord] §f{user}§7: {message}"
+```
+
+---
+
+## 🔌 Developer API
+
+Other mods can register their own modules and commands against the hosted bot. No need to manage JDA yourself — just implement `IBotModule` or call `BotDockEngine.registerCommand(...)` and you're done.
+
+```java
+BotDockEngine.registerCommand("seed", (event, args, server) -> {
+    long seed = server.overworld().getSeed();
+    BotDockEngine.sendToChannel(event.getChannel().getId(), "🌍 Seed: `" + seed + "`");
+});
+```
+
+Full API documentation is available on the [GitHub repository](#).
+
+---
+
+## 📋 Setup
+
+1. Create a bot at [discord.com/developers/applications](https://discord.com/developers/applications)
+2. Enable the **Server Members** and **Message Content** privileged intents
+3. Invite the bot to your Discord server
+4. Add your token and channel ID to `config/botdock-server.toml`
+5. Enable whichever modules you want and restart
+
+---
+
+## 📌 Requirements
+
+- NeoForge 1.21.1
+- Java 21
+- **Server-side only** — clients do not need this mod installed
+
+---
+
+> 💡 **Tip:** BotDock shades JDA into the jar automatically. No extra dependencies to install.
