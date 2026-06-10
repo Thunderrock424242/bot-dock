@@ -1,9 +1,9 @@
 package com.thunder.botdock.modules;
 
-import com.thunderrock.discordbot.DiscordBotEngine;
-import com.thunderrock.discordbot.api.IBotModule;
-import com.thunderrock.discordbot.api.IDiscordCommand;
-import com.thunderrock.discordbot.config.BotConfig;
+import com.thunder.botdock.BotDockEngine;
+import com.thunder.botdock.api.IBotModule;
+import com.thunder.botdock.api.IDiscordCommand;
+import com.thunder.botdock.config.BotConfig;
 import net.dv8tion.jda.api.JDA;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,20 +15,13 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import java.util.Map;
 
 /**
- * Optional module: sends player join, leave, and death notifications to Discord.
- *
- * Each notification type is individually togglable in config:
- *   modules.notifyJoin    = true/false
- *   modules.notifyLeave   = true/false
- *   modules.notifyDeath   = true/false
- *
- * Enabled via config: modules.enablePlayerEvents = true
+ * Optional module that sends player join, leave, and death notifications to Discord.
  */
 public class PlayerEventsModule implements IBotModule {
 
     @Override
     public String getId() {
-        return "discordbot:player_events";
+        return "botdock:player_events";
     }
 
     @Override
@@ -47,8 +40,8 @@ public class PlayerEventsModule implements IBotModule {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
         String name = player.getGameProfile().getName();
-        String msg = BotConfig.JOIN_FORMAT.get().replace("{player}", name);
-        DiscordBotEngine.sendToBridgeChannel(msg);
+        String message = BotConfig.JOIN_FORMAT.get().replace("{player}", name);
+        BotDockEngine.sendToBridgeChannel(message);
     }
 
     @SubscribeEvent
@@ -57,8 +50,8 @@ public class PlayerEventsModule implements IBotModule {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
         String name = player.getGameProfile().getName();
-        String msg = BotConfig.LEAVE_FORMAT.get().replace("{player}", name);
-        DiscordBotEngine.sendToBridgeChannel(msg);
+        String message = BotConfig.LEAVE_FORMAT.get().replace("{player}", name);
+        BotDockEngine.sendToBridgeChannel(message);
     }
 
     @SubscribeEvent
@@ -67,12 +60,12 @@ public class PlayerEventsModule implements IBotModule {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
         String deathMessage = player.getCombatTracker().getDeathMessage().getString();
-        String msg = BotConfig.DEATH_FORMAT.get().replace("{message}", deathMessage);
-        DiscordBotEngine.sendToBridgeChannel(msg);
+        String message = BotConfig.DEATH_FORMAT.get().replace("{message}", deathMessage);
+        BotDockEngine.sendToBridgeChannel(message);
     }
 
     @Override
     public void registerCommands(Map<String, IDiscordCommand> registry) {
-        // No commands for this module
+        // No commands for this module.
     }
 }

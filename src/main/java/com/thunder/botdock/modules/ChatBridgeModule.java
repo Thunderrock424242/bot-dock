@@ -1,25 +1,23 @@
 package com.thunder.botdock.modules;
 
-import com.thunder.botdock.DiscordBotEngine;
-import com.thunder.botdock.DiscordBotMod;
+import com.thunder.botdock.BotDockEngine;
+import com.thunder.botdock.BotDockMod;
 import com.thunder.botdock.api.IBotModule;
 import com.thunder.botdock.api.IDiscordCommand;
 import com.thunder.botdock.config.BotConfig;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.ServerChatEvent;
 
-import java.awt.*;
 import java.util.Map;
 
 /**
- * Optional module: bridges chat between Minecraft and Discord.
- *
- * When enabled:
- *  - In-game chat messages → Discord bridge channel
- *  - Discord bridge channel messages → all in-game players
- *
- * Enabled via config: modules.enableChatBridge = true
+ * Optional module that bridges chat between Minecraft and Discord.
  */
 public class ChatBridgeModule implements IBotModule {
 
@@ -27,7 +25,7 @@ public class ChatBridgeModule implements IBotModule {
 
     @Override
     public String getId() {
-        return "discordbot:chat_bridge";
+        return "botdock:chat_bridge";
     }
 
     @Override
@@ -39,9 +37,8 @@ public class ChatBridgeModule implements IBotModule {
     @Override
     public void onDisable() {
         NeoForge.EVENT_BUS.unregister(this);
+        this.server = null;
     }
-
-    // ── Minecraft → Discord ──────────────────────────────────────────────────
 
     @SubscribeEvent
     public void onPlayerChat(ServerChatEvent event) {
@@ -51,10 +48,8 @@ public class ChatBridgeModule implements IBotModule {
                 .replace("{player}", name)
                 .replace("{message}", message);
 
-        DiscordBotEngine.sendToBridgeChannel(format);
+        BotDockEngine.sendToBridgeChannel(format);
     }
-
-    // ── Discord → Minecraft ──────────────────────────────────────────────────
 
     @Override
     public void onDiscordMessage(MessageReceivedEvent event) {
@@ -69,17 +64,16 @@ public class ChatBridgeModule implements IBotModule {
 
         Component component = Component.literal(format);
 
-        // Must execute on the server thread
         server.execute(() -> {
             for (ServerPlayer player : server.getPlayerList().getPlayers()) {
                 player.sendSystemMessage(component);
             }
-            DiscordBotMod.LOGGER.info("[ChatBridge] Discord → MC | {}: {}", discordUser, content);
+            BotDockMod.LOGGER.info("[ChatBridge] Discord to Minecraft | {}: {}", discordUser, content);
         });
     }
 
     @Override
     public void registerCommands(Map<String, IDiscordCommand> registry) {
-        // No commands for this module — it's passive relay only
+        // Passive relay only.
     }
 }
