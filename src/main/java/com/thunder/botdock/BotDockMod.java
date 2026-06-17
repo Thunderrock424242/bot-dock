@@ -5,6 +5,7 @@ import com.thunder.botdock.config.BotConfig;
 import com.thunder.botdock.modules.ChatBridgeModule;
 import com.thunder.botdock.modules.PlayerEventsModule;
 import com.thunder.botdock.modules.ServerStatsModule;
+import com.thunder.botdock.modules.SupportDeskModule;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -38,7 +39,7 @@ public class BotDockMod {
     public void onServerStarted(ServerStartedEvent event) {
         String token = BotConfig.BOT_TOKEN.get();
 
-        if (token.isBlank() || token.equals(BotConfig.DEFAULT_BOT_TOKEN)) {
+        if (!BotConfig.isTokenConfigured()) {
             LOGGER.error("[BotDock] ====================================================");
             LOGGER.error("[BotDock] No bot token set. Edit config/botdock-server.toml");
             LOGGER.error("[BotDock] ====================================================");
@@ -59,6 +60,16 @@ public class BotDockMod {
         if (BotConfig.ENABLE_SERVER_STATS.get()) {
             BotDockEngine.registerModule(new ServerStatsModule());
             LOGGER.info("[BotDock] Module enabled: Server Stats");
+        }
+        if (BotConfig.ENABLE_SUPPORT_DESK.get()) {
+            BotDockEngine.registerModule(new SupportDeskModule());
+            LOGGER.info("[BotDock] Module enabled: Support Desk");
+        }
+        if (BotConfig.ENABLE_QA_RESPONDER.get()) {
+            LOGGER.warn("[BotDock] Q&A Responder is reserved but not implemented yet.");
+        }
+        if (BotConfig.ENABLE_PLAYTEST_DESK.get()) {
+            LOGGER.warn("[BotDock] Playtest Desk is reserved but not implemented yet.");
         }
 
         LOGGER.info("[BotDock] Bot is running. {} module(s) active.", BotDockEngine.getModuleCount());

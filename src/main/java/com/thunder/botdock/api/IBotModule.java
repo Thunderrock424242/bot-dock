@@ -1,7 +1,12 @@
 package com.thunder.botdock.api;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
+import net.dv8tion.jda.api.events.interaction.component.StringSelectInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.minecraft.server.MinecraftServer;
 
 import java.util.Map;
@@ -39,5 +44,35 @@ public interface IBotModule {
      * Register !commands handled by this module.
      */
     default void registerCommands(Map<String, IDiscordCommand> registry) {
+    }
+
+    /**
+     * Register Discord slash commands handled by this module.
+     */
+    default void registerSlashCommands(Map<String, CommandData> registry) {
+    }
+
+    /**
+     * Called when a slash command interaction is received.
+     */
+    default void onSlashCommand(SlashCommandInteractionEvent event) {
+    }
+
+    /**
+     * Called when a Discord button interaction is received.
+     */
+    default void onButtonInteraction(ButtonInteractionEvent event) {
+    }
+
+    /**
+     * Called when a Discord string select menu interaction is received.
+     */
+    default void onStringSelectInteraction(StringSelectInteractionEvent event) {
+    }
+
+    /**
+     * Called when a Discord modal submission is received.
+     */
+    default void onModalInteraction(ModalInteractionEvent event) {
     }
 }

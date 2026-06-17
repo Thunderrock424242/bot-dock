@@ -55,6 +55,11 @@ public class ChatBridgeModule implements IBotModule {
     public void onDiscordMessage(MessageReceivedEvent event) {
         if (server == null) return;
 
+        String bridgeChannelId = BotDockEngine.getBridgeChannelId();
+        if (!BotConfig.isConfiguredId(bridgeChannelId) || !event.getChannel().getId().equals(bridgeChannelId)) {
+            return;
+        }
+
         String discordUser = event.getAuthor().getName();
         String content = event.getMessage().getContentDisplay();
 
